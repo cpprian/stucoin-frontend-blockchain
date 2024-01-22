@@ -13,18 +13,29 @@ export type TopStudents = {
 
 export const studentColumns: ColumnDef<TopStudents>[] = [
     {
-        accessorKey: "name",
+        accessorKey: "index",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Name
+                    Rank
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
         },
+        cell: ({ row }) => {
+            return (
+                <div className="flex items-center justify-center">
+                    <span className="text-lg font-medium">{row.index + 1}</span>
+                </div>
+            )
+        }
+    },
+    {
+        accessorKey: "name",
+        header: "Name",
     },
     {
         accessorKey: "surname",

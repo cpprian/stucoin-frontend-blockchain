@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
                         placeholder="Filter tasks..."
                         value={(table.getColumn("Title")?.getFilterValue() as string) as string ?? ""}
                         onChange={(event) =>
-                            table.getColumn("Description")?.setFilterValue(event.target.value)
+                            table.getColumn("Title")?.setFilterValue(event.target.value)
                         }
                         className="max-w-sm"
                     />
