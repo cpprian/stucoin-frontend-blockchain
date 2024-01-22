@@ -15,6 +15,7 @@ import {
 } from "components/ui/tabs"
 import { Task } from "schemas/task"
 import { ScrollUserTasks } from "./scroll-user-tasks"
+import { Student, Teacher } from "@prisma/client"
 
 interface TabsProfileProps {
     name: string,
@@ -22,6 +23,8 @@ interface TabsProfileProps {
     bio: string,
     activeTasks: Task[],
     historyTasks: Task[],
+    student?: Student | null,
+    teacher?: Teacher | null,
 };
 
 export function TabsProfile({
@@ -30,6 +33,8 @@ export function TabsProfile({
     bio,
     activeTasks,
     historyTasks,
+    student,
+    teacher,
 }: TabsProfileProps) {
     return (
         <Tabs defaultValue="about" className="w-[600px]">
@@ -51,6 +56,32 @@ export function TabsProfile({
                         <Input value={email} disabled />
                         <Label>Bio</Label>
                         <Input value={bio} disabled />
+                        {student && (
+                            <>
+                                <Label>University</Label>
+                                <Input value={student?.university} disabled />
+                                <Label>Faculty</Label>
+                                <Input value={student?.faculty} disabled />
+                                <Label>Year</Label>
+                                <Input value={student?.yearOfStudy} disabled />
+                                <Label>Total score</Label>
+                                <Input value={student?.totalScore} disabled />
+                            </>
+                        )}
+                        {teacher && (
+                            <>
+                                <Label>University</Label>
+                                <Input value={teacher?.university} disabled />
+                                <Label>Faculty</Label>
+                                <Input value={teacher?.faculty} disabled />
+                                <Label>Department</Label>
+                                <Input value={teacher?.department} disabled />
+                                <Label>Interests</Label>
+                                {teacher?.interests.map((interest, idx) => (
+                                    <Label key={idx}>{interest}</Label>
+                                ))}
+                            </>
+                        )}
                     </CardContent>
                 </Card>
             </TabsContent>

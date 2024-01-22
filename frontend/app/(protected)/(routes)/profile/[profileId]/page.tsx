@@ -91,7 +91,9 @@ const ProfilePage = ({
                         <Skeleton className="h-6 w-[450px]" />
                     )}
                     <Badge className="text-base">
-                        {User?.role === "ADMIN" ? "Admin" : User?.role === "TEACHER" ? "Teacher" : "Student"}
+                        {User?.role === "ADMIN" ? "Admin" : User?.role === "TEACHER" ? "Teacher" : User?.role === "STUDENT" ? "Student" : (
+                            <Skeleton className="h-4 w-[50px]" />
+                        )}
                     </Badge>
                 </div>
                 <div className="flex flex-col items-center space-y-4">
@@ -101,6 +103,8 @@ const ProfilePage = ({
                         bio={User?.bio ?? ""}
                         activeTasks={activeTasks}
                         historyTasks={historyTasks}
+                        student={StudentData ?? null}
+                        teacher={TeacherData ?? null}
                     />
                 </div>
 
