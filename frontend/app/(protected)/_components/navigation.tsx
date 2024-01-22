@@ -5,7 +5,7 @@ import { useRewards } from "hooks/use-rewards";
 import { useTasks } from "hooks/use-tasks";
 import { UserButton } from "components/auth/user-button";
 import { cn } from "lib/utils";
-import { Apple, ChevronsLeft, FileText, GiftIcon, MenuIcon, PlusCircle, User } from "lucide-react";
+import { Apple, ChevronsLeft, FileText, GiftIcon, MenuIcon, PlusCircle, Settings, User } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -172,6 +172,13 @@ export const Navigation = () => {
                             icon={PlusCircle}
                         />
                     )}
+                    <Item
+                        label="Settings"
+                        icon={Settings}
+                        onClick={() => {
+                            router.push(`/settings`);
+                        }}
+                    />
                 </div>
             </aside>
             <div

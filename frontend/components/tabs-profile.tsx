@@ -1,9 +1,7 @@
-import { Button } from "components/ui/button"
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "components/ui/card"
@@ -20,21 +18,42 @@ import { ScrollUserTasks } from "./scroll-user-tasks"
 
 interface TabsProfileProps {
     name: string,
+    email: string,
+    bio: string,
     activeTasks: Task[],
     historyTasks: Task[],
 };
 
 export function TabsProfile({
     name,
+    email,
+    bio,
     activeTasks,
     historyTasks,
 }: TabsProfileProps) {
     return (
-        <Tabs defaultValue="active" className="w-[600px]">
-            <TabsList className="grid w-full grid-cols-2">
+        <Tabs defaultValue="about" className="w-[600px]">
+            <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="about">About</TabsTrigger>
                 <TabsTrigger value="active">Active tasks</TabsTrigger>
                 <TabsTrigger value="history">History</TabsTrigger>
             </TabsList>
+            <TabsContent value="about">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>About</CardTitle>
+                        <CardDescription>
+                            {name}'s profile.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                        <Label>Email</Label>
+                        <Input value={email} disabled />
+                        <Label>Bio</Label>
+                        <Input value={bio} disabled />
+                    </CardContent>
+                </Card>
+            </TabsContent>
             <TabsContent value="active">
                 <Card>
                     <CardHeader>

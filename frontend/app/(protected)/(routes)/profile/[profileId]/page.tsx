@@ -3,10 +3,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "actions/api";
 import { convertTaskList } from "actions/tasks";
+import { ProfileCover } from "components/profile-cover";
 import { Spinner } from "components/spinner";
 import { TabsProfile } from "components/tabs-profile";
+import { Badge } from "components/ui/badge";
+import { Skeleton } from "components/ui/skeleton";
 import { fetcher } from "lib/fetcher";
-import { User } from "next-auth";
+import { Student, Teacher, User } from "@prisma/client"
 import { useEffect, useState } from "react";
 import { Task } from "schemas/task";
 
@@ -27,6 +30,16 @@ const ProfilePage = ({
         queryKey: ["profile", params.profileId],
         queryFn: () => fetcher(`/api/profile/${params.profileId}`),
     })
+
+    const { data: StudentData } = useQuery<Student>({
+        queryKey: ["student", params.profileId],
+        queryFn: () => fetcher(`/api/student/${params.profileId}`),
+    });
+
+    const { data: TeacherData } = useQuery<Teacher>({
+        queryKey: ["teacher", params.profileId],
+        queryFn: () => fetcher(`/api/teacher/${params.profileId}`),
+    });
 
     const fetchUserTasks = async () => {
         try {
@@ -66,17 +79,32 @@ const ProfilePage = ({
             </div>
         )
     }
-    
+
     return (
-        <div>
-            <h1>Profile page</h1>
-            <h2>{User?.email}</h2>
-            <h2>{User?.name}</h2>
-            <TabsProfile 
-                name={User?.name} 
-                activeTasks={activeTasks}
-                historyTasks={historyTasks}
-            />
+        <div className="py-20">
+            <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
+                <div className="flex flex-col items-center space-y-4 mb-10">
+                    <ProfileCover url={User?.image ?? ""} />
+                    {User?.name && User?.surname && (
+                        <h1 className="text-3xl font-bold">{User?.name} {User?.surname}</h1>
+                    ) || (
+                        <Skeleton className="h-6 w-[450px]" />
+                    )}
+                    <Badge className="text-base">
+                        {User?.role === "ADMIN" ? "Admin" : User?.role === "TEACHER" ? "Teacher" : "Student"}
+                    </Badge>
+                </div>
+                <div className="flex flex-col items-center space-y-4">
+                    <TabsProfile
+                        name={User?.name ?? ""}
+                        email={User?.email ?? ""}
+                        bio={User?.bio ?? ""}
+                        activeTasks={activeTasks}
+                        historyTasks={historyTasks}
+                    />
+                </div>
+
+            </div>
         </div>
     )
 };
