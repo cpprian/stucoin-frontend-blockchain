@@ -175,6 +175,10 @@ export function SettingsTabs({
                                         <Label htmlFor="yearOfStudy">Year of study</Label>
                                         <Input id="yearOfStudy" defaultValue={student?.yearOfStudy ?? ""} />
                                     </div>
+                                    <div className="space-y-1">
+                                        <Label htmlFor="points">Points</Label>
+                                        <Input id="points" defaultValue={student?.points ?? ""} />
+                                    </div>
                                 </>
                             )}
                             {user?.role === "TEACHER" && (
@@ -205,6 +209,7 @@ export function SettingsTabs({
                                                 university: (document.getElementById("university") as HTMLInputElement).value,
                                                 faculty: (document.getElementById("faculty") as HTMLInputElement).value,
                                                 yearOfStudy: (document.getElementById("yearOfStudy") as HTMLInputElement).value,
+                                                points: (document.getElementById("points") as HTMLInputElement).value,
                                             }),
                                         }).then((res) => {
                                             toast({

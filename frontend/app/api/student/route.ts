@@ -12,6 +12,7 @@ export async function POST(req: Request) {
                 university: body.university,
                 faculty: body.faculty,
                 yearOfStudy: Number(body.yearOfStudy),
+                totalScore: Number(body.points),
             },
         });
     } catch (error) {
