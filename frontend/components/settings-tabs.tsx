@@ -122,7 +122,32 @@ export function SettingsTabs({
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button>Save password</Button>
+                        <Button
+                            onClick={async () => {
+                                const response = await fetch("/api/password", {
+                                    method: "POST",
+                                    body: JSON.stringify({
+                                        id: user?.id,
+                                        currentPassword: (document.getElementById("current") as HTMLInputElement).value,
+                                        newPassword: (document.getElementById("new") as HTMLInputElement).value,
+                                        confirmPassword: (document.getElementById("confirm") as HTMLInputElement).value,
+                                    }),
+                                }).then((res) => {
+                                    toast({
+                                        title: "Password updated",
+                                        description: "Your password has been updated.",
+                                    })
+                                }).catch((err) => {
+                                    console.log(err)
+                                    toast({
+                                        title: "Error",
+                                        variant: "destructive",
+                                        description: "Something went wrong.",
+                                    })
+                                });
+                            }}
+                        >
+                            Save password</Button>
                     </CardFooter>
                 </Card>
             </TabsContent>
