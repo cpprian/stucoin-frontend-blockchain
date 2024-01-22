@@ -149,7 +149,7 @@ export const Navigation = () => {
                             router.push("/tasks");
                         }}
                     />
-                    {role === "STUDENT" || role === "ADMIN" && (
+                    {(role === "STUDENT" || role === "ADMIN") && (
                         <Item
                             label="Rewards"
                             icon={GiftIcon}

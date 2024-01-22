@@ -4,17 +4,17 @@ import { db } from "lib/db";
 
 export async function GET(
   req: Request,
-  { params }: { params: { profileId: string } }
+  { params }: { params: { teacherId: string } }
 ) {
-  const id = params.profileId;
+  const id = params.teacherId;
   try {
-    const user = await db.teacher.findFirst({
+    const teacher = await db.teacher.findFirst({
       where: {
         userId: id,
       },
     });
 
-    return NextResponse.json(user);
+    return NextResponse.json(teacher);
   } catch (error) {
     console.log(error);
     return new NextResponse("Internal Error", { status: 500 });

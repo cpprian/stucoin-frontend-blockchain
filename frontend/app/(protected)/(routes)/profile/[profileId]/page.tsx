@@ -27,7 +27,7 @@ const ProfilePage = ({
     const [error, setError] = useState<number | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
     const { data: User } = useQuery<User>({
-        queryKey: ["profile", params.profileId],
+        queryKey: ["profileId", params.profileId],
         queryFn: () => fetcher(`/api/profile/${params.profileId}`),
     })
 
@@ -101,6 +101,7 @@ const ProfilePage = ({
                         name={User?.name ?? ""}
                         email={User?.email ?? ""}
                         bio={User?.bio ?? ""}
+                        role={User?.role ?? "STUDENT"}
                         activeTasks={activeTasks}
                         historyTasks={historyTasks}
                         student={StudentData ?? null}
