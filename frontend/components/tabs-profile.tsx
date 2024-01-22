@@ -15,13 +15,14 @@ import {
 } from "components/ui/tabs"
 import { Task } from "schemas/task"
 import { ScrollUserTasks } from "./scroll-user-tasks"
-import { Student, Teacher } from "@prisma/client"
+import { Role, Student, Teacher } from "@prisma/client"
 import { Textarea } from "./ui/textarea"
 
 interface TabsProfileProps {
     name: string,
     email: string,
     bio: string,
+    role: Role,
     activeTasks: Task[],
     historyTasks: Task[],
     student?: Student | null,
@@ -32,6 +33,7 @@ export function TabsProfile({
     name,
     email,
     bio,
+    role,
     activeTasks,
     historyTasks,
     student,
@@ -57,26 +59,26 @@ export function TabsProfile({
                         <Input value={email} disabled />
                         <Label>Bio</Label>
                         <Textarea value={bio} disabled />
-                        {student && (
+                        {role === "STUDENT" && (
                             <>
                                 <Label>University</Label>
-                                <Input value={student?.university} disabled />
+                                <Input value={student?.university ?? ""} disabled />
                                 <Label>Faculty</Label>
-                                <Input value={student?.faculty} disabled />
+                                <Input value={student?.faculty ?? ""} disabled />
                                 <Label>Year</Label>
-                                <Input value={student?.yearOfStudy} disabled />
+                                <Input value={student?.yearOfStudy ?? ""} disabled />
                                 <Label>Total score</Label>
-                                <Input value={student?.totalScore} disabled />
+                                <Input value={student?.totalScore ?? ""} disabled />
                             </>
                         )}
                         {teacher && (
                             <>
                                 <Label>University</Label>
-                                <Input value={teacher?.university} disabled />
+                                <Input value={teacher?.university ?? ""} disabled />
                                 <Label>Faculty</Label>
-                                <Input value={teacher?.faculty} disabled />
+                                <Input value={teacher?.faculty ?? ""} disabled />
                                 <Label>Department</Label>
-                                <Input value={teacher?.department} disabled />
+                                <Input value={teacher?.department ?? ""} disabled />
                                 <Label>Interests</Label>
                                 {teacher?.interests.map((interest, idx) => (
                                     <Label key={idx}>{interest}</Label>

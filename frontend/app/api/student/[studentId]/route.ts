@@ -1,23 +1,22 @@
-import { db } from "lib/db";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
-    const body = await req.json();
-    console.log(body);
+import { db } from "lib/db";
 
-    try {
-        await db.student.update({
-            where: { id: body.id },
-            data: {
-                university: body.university,
-                faculty: body.faculty,
-                yearOfStudy: body.yearOfStudy,
-            },
-        });
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json({ message: "Error" });
-    }
+export async function GET(
+  req: Request,
+  { params }: { params: { studentId: string } }
+) {
+  const id = params.studentId;
+  try {
+    const student = await db.student.findFirst({
+      where: {
+        userId: id,
+      },
+    });
 
-    return NextResponse.json({ message: "OK" });
+    return NextResponse.json(student);
+  } catch (error) {
+    console.log(error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
 }

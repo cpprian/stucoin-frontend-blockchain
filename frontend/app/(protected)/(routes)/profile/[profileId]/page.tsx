@@ -101,6 +101,7 @@ const ProfilePage = ({
                         name={User?.name ?? ""}
                         email={User?.email ?? ""}
                         bio={User?.bio ?? ""}
+                        role={User?.role ?? "STUDENT"}
                         activeTasks={activeTasks}
                         historyTasks={historyTasks}
                         student={StudentData ?? null}

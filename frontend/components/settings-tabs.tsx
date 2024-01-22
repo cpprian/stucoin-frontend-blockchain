@@ -69,7 +69,7 @@ export function SettingsTabs({
                     <CardFooter>
                         <Button
                             onClick={async () => {
-                                const response = await fetch("/api/profile", {
+                                await fetch("/api/profile", {
                                     method: "POST",
                                     body: JSON.stringify({
                                         id: user?.id,
@@ -124,7 +124,7 @@ export function SettingsTabs({
                     <CardFooter>
                         <Button
                             onClick={async () => {
-                                const response = await fetch("/api/password", {
+                                await fetch("/api/password", {
                                     method: "POST",
                                     body: JSON.stringify({
                                         id: user?.id,
@@ -198,7 +198,7 @@ export function SettingsTabs({
                             {user?.role === "STUDENT" && (
                                 <Button
                                     onClick={async () => {
-                                        const response = await fetch("/api/student", {
+                                         await fetch("/api/student", {
                                             method: "POST",
                                             body: JSON.stringify({
                                                 id: user?.id,
@@ -226,7 +226,7 @@ export function SettingsTabs({
                             {user?.role === "TEACHER" && (
                                 <Button
                                     onClick={async () => {
-                                        const response = await fetch("/api/teacher", {
+                                        await fetch("/api/teacher", {
                                             method: "POST",
                                             body: JSON.stringify({
                                                 id: user?.id,
