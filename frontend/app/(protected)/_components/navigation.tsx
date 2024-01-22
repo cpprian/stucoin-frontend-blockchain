@@ -11,9 +11,11 @@ import { ElementRef, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";
 import { Item } from "./item";
+import { useCurrentUser } from "hooks/use-current-user";
 
 export const Navigation = () => {
     const role = useCurrentRole();
+    const user = useCurrentUser();
     const router = useRouter();
     // const settings = useSettings();
     const rewards = useRewards();
@@ -147,17 +149,21 @@ export const Navigation = () => {
                             router.push("/tasks");
                         }}
                     />
-                    <Item
-                        label="Rewards"
-                        icon={GiftIcon}
-                        onClick={() => {
-                            router.push("/rewards");
-                        }}
-                    />
+                    {role === "STUDENT" || role === "ADMIN" && (
+                        <Item
+                            label="Rewards"
+                            icon={GiftIcon}
+                            onClick={() => {
+                                router.push("/rewards");
+                            }}
+                        />
+                    )}
                     <Item
                         label="My profile"
                         icon={User}
-                        onClick={() => { }}
+                        onClick={() => {
+                            router.push(`/profile/${user?.id}`);
+                        }}
                     />
                     {role === "TEACHER" && (
                         <Item
