@@ -7,7 +7,6 @@ export async function GET(
   { params }: { params: { profileId: string } }
 ) {
   const id = params.profileId;
-  console.log("taki sexi id ", req);
   try {
     const user = await db.user.findFirst({
       where: {
@@ -15,7 +14,6 @@ export async function GET(
       },
     });
 
-    console.log("taki sexi user ", user);
     return NextResponse.json(user);
   } catch (error) {
     console.log(error);
