@@ -16,6 +16,7 @@ import {
 import { Task } from "schemas/task"
 import { ScrollUserTasks } from "./scroll-user-tasks"
 import { Student, Teacher } from "@prisma/client"
+import { Textarea } from "./ui/textarea"
 
 interface TabsProfileProps {
     name: string,
@@ -55,7 +56,7 @@ export function TabsProfile({
                         <Label>Email</Label>
                         <Input value={email} disabled />
                         <Label>Bio</Label>
-                        <Input value={bio} disabled />
+                        <Textarea value={bio} disabled />
                         {student && (
                             <>
                                 <Label>University</Label>

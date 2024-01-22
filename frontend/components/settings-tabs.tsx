@@ -17,6 +17,8 @@ import {
     TabsTrigger,
 } from "components/ui/tabs"
 import { Textarea } from "./ui/textarea"
+import { fetcher } from "lib/fetcher"
+import { toast } from "./ui/use-toast"
 
 interface SettingsTabsProps {
     user: User | undefined;
@@ -52,16 +54,48 @@ export function SettingsTabs({
                             <Input id="name" defaultValue={user?.name ?? ""} />
                         </div>
                         <div className="space-y-1">
+                            <Label htmlFor="surname">Surname</Label>
+                            <Input id="surname" defaultValue={user?.surname ?? ""} />
+                        </div>
+                        <div className="space-y-1">
                             <Label htmlFor="username">Email</Label>
                             <Input id="email" defaultValue={user?.email ?? ""} />
                         </div>
                         <div className="space-y-1">
                             <Label htmlFor="bio">Bio</Label>
-                            <Textarea placeholder={user?.bio ?? "Type your bio here."} />
+                            <Textarea id="bio" placeholder={user?.bio ?? "Type your bio here."} />
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button>Save changes</Button>
+                        <Button
+                            onClick={async () => {
+                                const response = await fetch("/api/profile", {
+                                    method: "POST",
+                                    body: JSON.stringify({
+                                        id: user?.id,
+                                        name: (document.getElementById("name") as HTMLInputElement).value,
+                                        surname: (document.getElementById("surname") as HTMLInputElement).value,
+                                        email: (document.getElementById("email") as HTMLInputElement).value,
+                                        bio: (document.getElementById("bio") as HTMLInputElement).value,
+                                    }),
+                                }).then((res) => {
+                                    console.log(res)
+                                    toast({
+                                        title: "Profile updated",
+                                        description: "Your profile has been updated.",
+                                    })
+                                }).catch((err) => {
+                                    console.log(err)
+                                    toast({
+                                        title: "Error",
+                                        variant: "destructive",
+                                        description: "Something went wrong.",
+                                    })
+                                });
+                            }}
+                        >
+                            Save changes
+                        </Button>
                     </CardFooter>
                 </Card>
             </TabsContent>
