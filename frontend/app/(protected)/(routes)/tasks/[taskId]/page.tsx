@@ -18,6 +18,9 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Task } from "schemas/task";
+import { useQuery } from "@tanstack/react-query";
+import { User } from "next-auth";
+import { fetcher } from "lib/fetcher";
 
 interface TaskIdPageProps {
     params: {
@@ -40,6 +43,16 @@ const TaskIdPage = ({
     const toast = useToast();
     const coverImage = useCoverImage();
     const [updateDataFlag, setUpdateDataFlag] = useState(false);
+
+    const { data: OwnerData } = useQuery<User>({
+        queryKey: ["profile", data?.Owner],
+        queryFn: () => fetcher(`/api/profile/${data?.Owner}`),
+    })
+
+    const { data: InChargeData } = useQuery<User>({
+        queryKey: ["profile", data?.InCharge],
+        queryFn: () => fetcher(`/api/profile/${data?.InCharge}`),
+    })
 
     const onChange = (content: string) => {
         fetchData(`/tasks/content/${params.taskId}`, "PUT", {
@@ -167,6 +180,7 @@ const TaskIdPage = ({
                 </div>
                 <div className="p-10">
                     {data.Files?.map((file) => (
+                        // eslint-disable-next-line react/jsx-key
                         <div className="flex items-center gap-2 text-gray-500 dark:text-white py-1">
                             <Button
                                 onClick={() => {
@@ -220,7 +234,7 @@ const TaskIdPage = ({
                         <div className="justify-between flex">
                             <div className="min-w-0 text-sm">
                                 <div className="overflow-hidden overflow-ellipsis whitespace-nowrap pb-2">
-                                    {data.Owner}
+                                    {OwnerData?.email}
                                 </div>
                                 <div className="text-xs text-gray-400 dark:text-gray-400">
                                     <Badge variant="outline">Teacher</Badge>
@@ -243,7 +257,7 @@ const TaskIdPage = ({
                                 <div className="justify-between flex">
                                     <div className="min-w-0 text-sm">
                                         <div className="overflow-hidden overflow-ellipsis whitespace-nowrap pb-2">
-                                            {data?.InCharge}
+                                            {InChargeData?.email}
                                         </div>
                                         <div className="text-xs text-gray-400 dark:text-gray-400">
                                             <Badge variant="outline">Student</Badge>

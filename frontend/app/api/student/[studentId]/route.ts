@@ -8,9 +8,9 @@ export async function GET(
 ) {
   const id = params.profileId;
   try {
-    const user = await db.user.findFirst({
+    const user = await db.student.findFirst({
       where: {
-        id: id,
+        userId: id,
       },
     });
 
