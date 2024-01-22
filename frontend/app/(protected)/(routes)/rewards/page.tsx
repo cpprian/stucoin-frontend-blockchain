@@ -28,9 +28,11 @@ const RewardsPage = () => {
                 setRewards(data);
                 console.log(data);
             } else {
+                console.error(res);
                 setError(res?.status);
             }
         } catch (err) {
+            console.error(err);
             setError(error);
         } finally {
             setIsLoading(false);

@@ -1,8 +1,8 @@
 export type Reward = {
-    name: string;
-    description: string;
-    points: number;
-    image: string;
-    orgName: string;
-    orgLocation: string;
+    Name: string;
+    Description: string;
+    Points: number;
+    Image: string;
+    OrgName: string;
+    OrgLocation: string;
 }

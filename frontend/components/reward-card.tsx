@@ -57,8 +57,9 @@ export function CarouselReward({
                             <div className="p-1">
                                 <Card>
                                     <CardContent className="flex flex-col aspect-square items-center justify-center p-6">
-                                        <span className="text-4xl font-semibold py-2">{reward.name}</span>
-                                        <span className="text-muted-foreground py-6">{reward.description.length}</span>
+                                        <span className="text-4xl font-semibold py-2">{reward.Name}</span>
+                                        <span className="text-muted-foreground py-6">{reward.Description}</span>
+                                        <span className="text-muted-foreground py-6">Points: {reward.Points}</span>
                                         <Button
                                             onClick={() => console.log("View")}
                                         >
