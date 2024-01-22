@@ -37,26 +37,26 @@ model User {
 model Student {
   id             String @id @default(cuid())
   userId         String @unique
-  university     String
-  faculty        String
-  yearOfStudy    Int
-  points         Int
-  totalScore     Int
-  activeTasks    Int
-  completedTasks Int
-  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  university     String?
+  faculty        String?
+  yearOfStudy    Int?
+  points         Int?
+  totalScore     Int?
+  activeTasks    Int?
+  completedTasks Int?
+  user           User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Teacher {
   id           String   @id @default(cuid())
   userId       String   @unique
-  university   String
-  faculty      String
-  department   String
+  university   String?
+  faculty      String?
+  department   String?
   interests    String[]
-  activeTasks  Int
-  createdTasks Int
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activeTasks  Int?
+  createdTasks Int?
+  user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {

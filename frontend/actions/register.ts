@@ -25,7 +25,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         return { error: "User already exists!" };
     }
 
-    await db.user.create({
+    const user = await db.user.create({
         data: {
             name,
             surname,
@@ -34,6 +34,33 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
             role,
         },
     });
+
+    if (role === "STUDENT") {
+        await db.student.create({
+            data: {
+                userId: user.id,
+                university: "",
+                faculty: "",
+                yearOfStudy: 1,
+                points: 0,
+                totalScore: 0,
+                activeTasks: 0,
+                completedTasks: 0,
+            },
+        })
+    } else if (role === "TEACHER") {
+        await db.teacher.create({
+            data: {
+                userId: user.id,
+                university: "",
+                faculty: "",
+                department: "",
+                interests: [],
+                activeTasks: 0,
+                createdTasks: 0,
+            },
+        })
+    }
 
     try {
         await signIn("credentials", {

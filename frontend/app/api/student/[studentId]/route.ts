@@ -4,9 +4,9 @@ import { db } from "lib/db";
 
 export async function GET(
   req: Request,
-  { params }: { params: { profileId: string } }
+  { params }: { params: { student: string } }
 ) {
-  const id = params.profileId;
+  const id = params.student;
   try {
     const user = await db.student.findFirst({
       where: {
