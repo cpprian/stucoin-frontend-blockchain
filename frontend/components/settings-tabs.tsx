@@ -36,7 +36,7 @@ export function SettingsTabs({
             <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="account">Account</TabsTrigger>
                 <TabsTrigger value="password">Password</TabsTrigger>
-                {(student || teacher) && (
+                {(user?.role === "STUDENT" || user?.role === "TEACHER") && (
                     <TabsTrigger value="university">University</TabsTrigger>
                 )}
             </TabsList>
@@ -195,11 +195,67 @@ export function SettingsTabs({
                             )}
                         </CardContent>
                         <CardFooter>
-                            <Button>Save changes</Button>
+                            {user?.role === "STUDENT" && (
+                                <Button
+                                    onClick={async () => {
+                                        const response = await fetch("/api/student", {
+                                            method: "POST",
+                                            body: JSON.stringify({
+                                                id: user?.id,
+                                                university: (document.getElementById("university") as HTMLInputElement).value,
+                                                faculty: (document.getElementById("faculty") as HTMLInputElement).value,
+                                                yearOfStudy: (document.getElementById("yearOfStudy") as HTMLInputElement).value,
+                                            }),
+                                        }).then((res) => {
+                                            toast({
+                                                title: "Your university data has been updated.",
+                                            })
+                                        }).catch((err) => {
+                                            console.log(err)
+                                            toast({
+                                                title: "Error",
+                                                variant: "destructive",
+                                                description: "Something went wrong.",
+                                            })
+                                        });
+                                    }}
+                                >
+                                    Save changes
+                                </Button>
+                            )}
+                            {user?.role === "TEACHER" && (
+                                <Button
+                                    onClick={async () => {
+                                        const response = await fetch("/api/teacher", {
+                                            method: "POST",
+                                            body: JSON.stringify({
+                                                id: user?.id,
+                                                university: (document.getElementById("university") as HTMLInputElement).value,
+                                                faculty: (document.getElementById("faculty") as HTMLInputElement).value,
+                                                department: (document.getElementById("department") as HTMLInputElement).value,
+                                            }),
+                                        }).then((res) => {
+                                            toast({
+                                                title: "Your university data has been updated.",
+                                            })
+                                        }).catch((err) => {
+                                            console.log(err)
+                                            toast({
+                                                title: "Error",
+                                                variant: "destructive",
+                                                description: "Something went wrong.",
+                                            })
+                                        });
+                                    }}
+                                >
+                                    Save changes
+                                </Button>
+                            )}
                         </CardFooter>
                     </Card>
                 </TabsContent>
-            )}
-        </Tabs>
+            )
+            }
+        </Tabs >
     )
 }
