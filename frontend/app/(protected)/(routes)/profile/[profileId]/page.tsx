@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "actions/api";
 import { convertTaskList } from "actions/tasks";
 import { Spinner } from "components/spinner";
+import { TabsProfile } from "components/tabs-profile";
 import { fetcher } from "lib/fetcher";
 import { User } from "next-auth";
 import { useEffect, useState } from "react";
@@ -18,7 +19,8 @@ interface ProfilePageProps {
 const ProfilePage = ({
     params
 }: ProfilePageProps) => {
-    const [tasks, setTasks] = useState<Task[]>([]);
+    const [activeTasks, setaActiveTasks] = useState<Task[]>([]);
+    const [historyTasks, setHistoryTasks] = useState<Task[]>([]);
     const [error, setError] = useState<number | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
     const { data: User } = useQuery<User>({
@@ -28,12 +30,20 @@ const ProfilePage = ({
 
     const fetchUserTasks = async () => {
         try {
-            const res = await fetchData(`/tasks/teacher/${params.profileId}`, "GET", {});
+            const res = await fetchData(`/tasks/active/${params.profileId}`, "GET", {});
             if (res?.status === 200) {
                 const data = await res.json();
-                setTasks(convertTaskList(data));
+                setaActiveTasks(convertTaskList(data));
             } else {
                 setError(res?.status);
+            }
+
+            const res2 = await fetchData(`/tasks/history/${params.profileId}`, "GET", {});
+            if (res2?.status === 200) {
+                const data = await res2.json();
+                setHistoryTasks(convertTaskList(data));
+            } else {
+                setError(res2?.status);
             }
         } catch (err) {
             setError(error);
@@ -62,14 +72,11 @@ const ProfilePage = ({
             <h1>Profile page</h1>
             <h2>{User?.email}</h2>
             <h2>{User?.name}</h2>
-            <ul>
-                {tasks.map((task) => (
-                    <li key={task.ID}>
-                        <h3>{task.Title}</h3>
-                        <p>{task.Description}</p>
-                    </li>
-                ))}
-            </ul>
+            <TabsProfile 
+                name={User?.name} 
+                activeTasks={activeTasks}
+                historyTasks={historyTasks}
+            />
         </div>
     )
 };
