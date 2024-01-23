@@ -65,6 +65,10 @@ export function SettingsTabs({
                             <Label htmlFor="bio">Bio</Label>
                             <Textarea id="bio" placeholder={user?.bio ?? "Type your bio here."} />
                         </div>
+                        <div className="space-y-1">
+                            <Label htmlFor="wallet">Wallet Address</Label>
+                            <Input id="wallet" defaultValue={user?.walletAddress ?? ""} />
+                        </div>
                     </CardContent>
                     <CardFooter>
                         <Button
@@ -77,6 +81,7 @@ export function SettingsTabs({
                                         surname: (document.getElementById("surname") as HTMLInputElement).value,
                                         email: (document.getElementById("email") as HTMLInputElement).value,
                                         bio: (document.getElementById("bio") as HTMLInputElement).value,
+                                        wallet: (document.getElementById("wallet") as HTMLInputElement).value,
                                     }),
                                 }).then((res) => {
                                     console.log(res)

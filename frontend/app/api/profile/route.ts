@@ -13,6 +13,7 @@ export async function POST(req: Request) {
                 surname: body.surname,
                 email: body.email,
                 bio: body.bio,
+                walletAddress: body.walletAddress,
             },
         });
     } catch (error) {
