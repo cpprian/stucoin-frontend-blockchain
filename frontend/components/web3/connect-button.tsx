@@ -9,35 +9,35 @@ import { useResolveAddressToDomain } from '@azns/resolver-react'
 import { InjectedAccount } from '@polkadot/extension-inject/types'
 import { encodeAddress } from '@polkadot/util-crypto'
 import {
-    SubstrateChain,
-    SubstrateWalletPlatform,
-    allSubstrateWallets,
-    getSubstrateChain,
-    isWalletInstalled,
-    useBalance,
-    useInkathon,
+  SubstrateChain,
+  SubstrateWalletPlatform,
+  allSubstrateWallets,
+  getSubstrateChain,
+  isWalletInstalled,
+  useBalance,
+  useInkathon,
 } from '@scio-labs/use-inkathon'
-import { AlertOctagon } from 'lucide-react'
+import { AlertOctagon, CopyIcon } from 'lucide-react'
 import aznsIconSvg from 'public/icons/azns-icon.svg'
-import toast from 'react-hot-toast'
 import { AiOutlineCheckCircle, AiOutlineDisconnect } from 'react-icons/ai'
 import { FiChevronDown, FiExternalLink } from 'react-icons/fi'
 import { RiArrowDownSLine } from 'react-icons/ri'
 
 import { Button } from 'components/ui/button'
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from 'components/ui/dropdown-menu'
 import { env } from 'config/environment'
 import { truncateHash } from 'utils/truncate-hash'
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
+import { useToast } from 'components/ui/use-toast'
 
-export interface ConnectButtonProps {}
+export interface ConnectButtonProps { }
 export const ConnectButton: FC<ConnectButtonProps> = () => {
   const {
     activeChain,
@@ -67,6 +67,8 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
       (w) => w.platforms.includes(SubstrateWalletPlatform.Browser) && !isWalletInstalled(w),
     ),
   ])
+
+  const { toast } = useToast();
 
   // Connect Button
   if (!activeAccount)
@@ -148,7 +150,11 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
               key={chain.network}
               onClick={async () => {
                 await switchActiveChain?.(chain)
-                toast.success(`Switched to ${chain.name}`)
+                toast({
+                  title: 'Switched Network',
+                  description: `Switched to ${chain.name}`,
+                  duration: 5000,
+                })
               }}
             >
               <div className="flex w-full items-center justify-between gap-2">
@@ -201,17 +207,32 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
 
       {/* Account Balance */}
       {reducibleBalanceFormatted !== undefined && (
-        <div className="flex min-w-[10rem] items-center justify-center gap-2 rounded-2xl border bg-gray-900 px-4 py-3 font-mono text-sm font-bold text-foreground">
-          {reducibleBalanceFormatted}
-          {(!reducibleBalance || reducibleBalance?.isZero()) && (
-            <Tooltip>
-              <TooltipTrigger className="cursor-help">
-                <AlertOctagon size={16} className="text-warning" />
-              </TooltipTrigger>
-              <TooltipContent>No balance to pay fees</TooltipContent>
-            </Tooltip>
-          )}
-        </div>
+        <>
+          <div className="flex min-w-[10rem] items-center justify-center gap-2 rounded-2xl border bg-gray-900 px-4 py-3 font-mono text-sm font-bold text-foreground">
+            {reducibleBalanceFormatted}
+            {(!reducibleBalance || reducibleBalance?.isZero()) && (
+              <Tooltip>
+                <TooltipTrigger className="cursor-help">
+                  <AlertOctagon size={16} className="text-warning" />
+                </TooltipTrigger>
+                <TooltipContent>No balance to pay fees</TooltipContent>
+              </Tooltip>
+            )}
+          </div>
+          <Button 
+            variant="outline"
+            onClick={() => {
+              navigator.clipboard.writeText(activeAccount.address);
+              toast({
+                title: 'Copied!',
+                description: `Copied wallet address to clipboard`,
+                duration: 5000,
+              });
+            }}
+          >
+            <CopyIcon />
+          </Button>
+        </>
       )}
     </div>
   )
