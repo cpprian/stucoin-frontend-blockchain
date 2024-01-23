@@ -17,7 +17,6 @@ import {
     TabsTrigger,
 } from "components/ui/tabs"
 import { Textarea } from "./ui/textarea"
-import { fetcher } from "lib/fetcher"
 import { toast } from "./ui/use-toast"
 
 interface SettingsTabsProps {
