@@ -54,8 +54,8 @@ export const taskColumns: ColumnDef<Task>[] = [
                         </PopoverTrigger>
                         <PopoverContent className="">
                             <div className="grid gap-4">
-                                {["ACCEPTED", "COMPLETED", "INCOMPLETED", "ABORTED", "OPEN"].map((status) => (
-                                    <div className="grid gap-2">
+                                {["ACCEPTED", "COMPLETED", "INCOMPLETED", "ABORTED", "OPEN"].map((status, index) => (
+                                    <div key={index} className="grid gap-2">
                                         <div className="grid grid-cols-3 items-center gap-4">
                                             <Button
                                                 variant="none"
