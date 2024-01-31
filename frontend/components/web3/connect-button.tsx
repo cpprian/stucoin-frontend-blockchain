@@ -40,10 +40,6 @@ import { truncateHash } from 'utils/truncate-hash'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import { useToast } from 'components/ui/use-toast'
 import { ContractIds } from 'deployments/deployments'
-import { useCall, useCallSubscription, useContract, useWallet } from 'useink'
-
-import metadata from "../../../contracts/deployments/erc20/erc20.json";
-import { pickDecoded, planckToDecimalFormatted, stringNumberToBN } from 'useink/utils'
 
 export interface ConnectButtonProps { }
 export const ConnectButton: FC<ConnectButtonProps> = () => {
@@ -261,7 +257,7 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
       {reducibleBalanceFormatted !== undefined && (
         <>
           <div className="flex min-w-[10rem] items-center justify-center gap-2 rounded-2xl border bg-gray-900 px-4 py-3 font-mono text-sm font-bold text-foreground">
-            {/* { balance } */}
+            {reducibleBalanceFormatted}
             {(!reducibleBalance || reducibleBalance?.isZero()) && (
               <Tooltip>
                 <TooltipTrigger className="cursor-help">
