@@ -1,12 +1,10 @@
 "use client";
 
 import { useCurrentRole } from "hooks/use-current-role";
-import { useRewards } from "hooks/use-rewards";
-import { useTasks } from "hooks/use-tasks";
 import { UserButton } from "components/auth/user-button";
 import { cn } from "lib/utils";
 import { Apple, ChevronsLeft, FileText, GiftIcon, MenuIcon, PlusCircle, Settings, User } from "lucide-react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";
@@ -17,10 +15,6 @@ export const Navigation = () => {
     const role = useCurrentRole();
     const user = useCurrentUser();
     const router = useRouter();
-    // const settings = useSettings();
-    const rewards = useRewards();
-    const tasks = useTasks();
-    const params = useParams();
     const pathname = usePathname();
     const isMobile = useMediaQuery("(max-width: 768px)");
     const create = async (data: { title: string }) => {

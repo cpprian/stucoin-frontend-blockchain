@@ -7,7 +7,7 @@ import { Spinner } from "components/spinner";
 import { Button } from "components/ui/button";
 import { ToastAction } from "components/ui/toast";
 import { useToast } from "components/ui/use-toast";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, User } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,6 +15,8 @@ import { Task } from "schemas/task";
 import { fetchData } from "actions/api";
 import { useCurrentUser } from "hooks/use-current-user";
 import { useCurrentRole } from "hooks/use-current-role";
+import { useQuery } from "@tanstack/react-query";
+import { fetcher } from "lib/fetcher";
 
 
 const TaskPage = () => {
@@ -27,6 +29,11 @@ const TaskPage = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [error, setError] = useState<number | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
+
+    const { data: userData } = useQuery<User>({
+        queryKey: ["profile", user?.id],
+        queryFn: () => fetcher(`/api/profile/${user?.id}`),
+    });
 
     const fetchTeacherTasks = async () => {
         try {
@@ -115,6 +122,28 @@ const TaskPage = () => {
             setLoading(false);
         }
     };
+
+    if (!userData?.walletAddress) {
+        return (
+            <div className="h-full flex flex-col items-center justify-center space-y-4">
+                <div className="flex flex-col items-center space-y-4">
+                    <Image
+                        src="/empty.png"
+                        height="500"
+                        width="500"
+                        alt="Empty"
+                    />
+                    <h2 className="text-lg font-medium">
+                        Oh no! You don't have a wallet yet. Add one now!
+                    </h2>
+                    <Button onClick={() => router.push("/settings")}>
+                        <PlusCircle className="h-4 w-4 mr-2" />
+                        Add a wallet
+                    </Button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="h-full flex flex-col items-center justify-center space-y-4">
