@@ -15,7 +15,6 @@ export const TaskSchema = z.object({
     Owner: z.string(),
     InCharge: z.optional(z.string()),
     Files: z.optional(z.array(FileSchema)),
-    Tags: z.array(z.string()),
 })
 
 // extend the schema to include the id

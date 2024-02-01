@@ -91,7 +91,6 @@ const TaskPage = () => {
                 owner: user?.id,
                 inCharge: "",
                 files: [],
-                tags: [],
             }
 
             const res = await fetchData("/tasks", "POST", task);

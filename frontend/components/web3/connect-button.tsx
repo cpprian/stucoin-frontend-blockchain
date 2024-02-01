@@ -40,6 +40,7 @@ import { truncateHash } from 'utils/truncate-hash'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import { useToast } from 'components/ui/use-toast'
 import { ContractIds } from 'deployments/deployments'
+import { useWallet } from 'useink'
 
 export interface ConnectButtonProps { }
 export const ConnectButton: FC<ConnectButtonProps> = () => {

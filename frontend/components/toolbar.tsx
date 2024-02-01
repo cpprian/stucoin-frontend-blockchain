@@ -85,7 +85,7 @@ export const Toolbar = ({
             ) : (
                 <div
                     onClick={enableInput}
-                    className="pb-[11.5px] text-5xl font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF]"
+                    className="pb-[11.5px] text-5xl font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] max-w-[calc(90%-54px)]"
                 >
                     {value}
                 </div>

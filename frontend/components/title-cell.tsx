@@ -14,7 +14,7 @@ export const TitleCell = (title: string, id: string) => {
                 router.push(`/tasks/${id}`);
             }}
         >
-            {title}
+            {title.length > 20 ? title.substring(0, 20) + "..." : title}
         </Button>
     </div>
     );
