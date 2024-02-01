@@ -44,6 +44,10 @@ const TaskIdPage = ({
     const coverImage = useCoverImage();
     const [updateDataFlag, setUpdateDataFlag] = useState(false);
 
+    const updateCoverImage = () => {
+        setUpdateDataFlag(!updateDataFlag);
+    }
+
     const { data: OwnerData } = useQuery<User>({
         queryKey: ["profile", data?.Owner],
         queryFn: () => fetcher(`/api/profile/${data?.Owner}`),
@@ -84,7 +88,7 @@ const TaskIdPage = ({
                 setLoading(false);
             }
         })();
-    }, [updateDataFlag, coverImage.url]);
+    }, [updateDataFlag, coverImage]);
 
     function updateFileProgress(key: string, progress: FileState['progress']) {
         setFileStates((fileStates) => {
