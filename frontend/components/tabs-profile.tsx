@@ -17,6 +17,7 @@ import { Task } from "schemas/task"
 import { ScrollUserTasks } from "./scroll-user-tasks"
 import { Role, Student, Teacher } from "@prisma/client"
 import { Textarea } from "./ui/textarea"
+import { Button } from "./ui/button"
 
 interface TabsProfileProps {
     name: string,
@@ -71,7 +72,7 @@ export function TabsProfile({
                                 <Input value={student?.totalScore ?? ""} disabled />
                             </>
                         )}
-                        {teacher && (
+                        {role === "TEACHER" && (
                             <>
                                 <Label>University</Label>
                                 <Input value={teacher?.university ?? ""} disabled />
@@ -79,10 +80,16 @@ export function TabsProfile({
                                 <Input value={teacher?.faculty ?? ""} disabled />
                                 <Label>Department</Label>
                                 <Input value={teacher?.department ?? ""} disabled />
-                                <Label>Interests</Label>
-                                {teacher?.interests.map((interest, idx) => (
-                                    <Label key={idx}>{interest}</Label>
-                                ))}
+                                <div className="border border-gray-300 rounded p-4 mt-4">
+                                    <Label htmlFor="interest" className="text-lg">Interests</Label>
+                                    <ul className="list-disc list-inside">
+                                        {teacher?.interests.map((interest, index) => (
+                                            <li key={index} className="flex items-center space-x-2">
+                                                <li>{interest}</li>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </>
                         )}
                     </CardContent>

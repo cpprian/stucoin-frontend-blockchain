@@ -6,13 +6,16 @@ export async function POST(req: Request) {
     console.log(body);
 
     try {
-        await db.teacher.update({
+        db.teacher.update({
             where: { userId: body.id },
             data: {
                 university: body.university,
                 faculty: body.faculty,
                 department: body.department,
+                interests: body.interests,
             },
+        }).then((teacher) => {
+            console.log(teacher);
         });
     } catch (error) {
         console.log(error);

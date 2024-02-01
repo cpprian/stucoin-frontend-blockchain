@@ -18,6 +18,7 @@ import {
 } from "components/ui/tabs"
 import { Textarea } from "./ui/textarea"
 import { toast } from "./ui/use-toast"
+import { useState } from "react"
 
 interface SettingsTabsProps {
     user: User | undefined;
@@ -30,6 +31,25 @@ export function SettingsTabs({
     student,
     teacher,
 }: SettingsTabsProps) {
+    const [interestInput, setInterestInput] = useState('');
+    const [interests, setInterests] = useState(teacher?.interests ?? []);
+
+    const handleInterestChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInterestInput(event.target.value);
+    };
+
+    const handleAddInterest = () => {
+        if (interestInput.trim() !== '') {
+            setInterests([...interests, interestInput.trim()]);
+            setInterestInput('');
+        }
+    };
+
+    const handleRemoveInterest = (interestIndex: number) => {
+        const updatedInterests = interests.filter((_, index) => index !== interestIndex);
+        setInterests(updatedInterests);
+    };
+
     return (
         <Tabs defaultValue="account" className="w-[600px]">
             <TabsList className="grid w-full grid-cols-3">
@@ -44,7 +64,7 @@ export function SettingsTabs({
                     <CardHeader>
                         <CardTitle>Account</CardTitle>
                         <CardDescription>
-                            Make changes to your account here. Click save when you're done.
+                            Make changes to your account here. Click save when you&apos;re done.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2">
@@ -108,7 +128,7 @@ export function SettingsTabs({
                     <CardHeader>
                         <CardTitle>Password</CardTitle>
                         <CardDescription>
-                            Change your password here. After saving, you'll be logged out.
+                            Change your password here. After saving, you&apos;ll be logged out.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2">
@@ -199,6 +219,38 @@ export function SettingsTabs({
                                         <Label htmlFor="department">Department</Label>
                                         <Input id="department" defaultValue={teacher?.department ?? ""} />
                                     </div>
+                                    <div className="space-y-1">
+                                        <Label htmlFor="interest">Interests</Label>
+                                        <div className="flex space-x-2">
+                                            <Input
+                                                type="text"
+                                                id="interest"
+                                                value={interestInput}
+                                                onChange={handleInterestChange}
+                                                placeholder="Add an interest"
+                                                className="border border-gray-300 px-2 py-1 rounded-md flex-grow"
+                                            />
+                                            <Button
+                                                type="button"
+                                                onClick={handleAddInterest}
+                                            >
+                                                Add
+                                            </Button>
+                                        </div>
+                                        <ul className="list-disc list-inside">
+                                            {interests.map((interest, index) => (
+                                                <li key={index} className="flex items-center space-x-2">
+                                                    <li key={index}>{interest}</li>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={() => handleRemoveInterest(index)}
+                                                    >
+                                                        Remove
+                                                    </Button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </>
                             )}
                         </CardContent>
@@ -206,7 +258,7 @@ export function SettingsTabs({
                             {user?.role === "STUDENT" && (
                                 <Button
                                     onClick={async () => {
-                                         await fetch("/api/student", {
+                                        await fetch("/api/student", {
                                             method: "POST",
                                             body: JSON.stringify({
                                                 id: user?.id,
@@ -242,6 +294,7 @@ export function SettingsTabs({
                                                 university: (document.getElementById("university") as HTMLInputElement).value,
                                                 faculty: (document.getElementById("faculty") as HTMLInputElement).value,
                                                 department: (document.getElementById("department") as HTMLInputElement).value,
+                                                interests: interests,
                                             }),
                                         }).then((res) => {
                                             toast({
